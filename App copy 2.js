@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
   FlatList,
   AsyncStorage,
-  Button,
+  TouchableOpacity,
 } from "react-native";
 import Checkbox from 'expo-checkbox';
 import { StatusBar } from 'expo-status-bar';
@@ -21,18 +21,13 @@ const App = () => {
   const [data, setData] = useState([]);
   const [title, setTitle] = useState([]);
   const [description, setDescription] = useState([]);
-  const [isChecked, setChecked] = useState([]);
-  const [toggleButton, setToggleButton] = React.useState(false);
+  const [isChecked, setChecked] = useState(false);
 
-  // const initialState = data.map((item) =>{
-  //   item.id:false;
-  // });
   // similar to 'componentDidMount', gets called once
   useEffect(() => {
     fetch(movieURL)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        setChecked(json.movies);
         setData(json.movies);
         setTitle(json.title);
         setDescription(json.description);
@@ -82,6 +77,12 @@ const App = () => {
   };
 
   // end
+  // Check Box
+  // <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center',}} key = {id}>
+  //   <CheckBox/>
+  //   <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
+  // </TouchableOpacity>
+  // end check box
 
   return (
     <SafeAreaView style={styles.container}>
@@ -98,40 +99,25 @@ const App = () => {
             data={data}
             keyExtractor={({ id }, index) => id}
             renderItem={({ item }) => (
-              <View>
-                <View style={styles.row}>
-                <Checkbox style={styles.checkbox} value = {isChecked} onValueChange = {setChecked}/>
-                <StatusBar style='auto'/>
-                </View>
-                <Text>{item.title}</Text>
-              </View>
+              <TouchableOpacity
+                style={{ flexDirection: "row", alignItems: "center" }}
+                key={item.id} onPress ={()=>{this.onchecked(item.title)}}
+              >
+                <CheckBox />
+                <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+              </TouchableOpacity>
             )}
+            // renderItem={({ item }) => (
+            //   <View style={{ paddingBottom: 10 }}>
+            //     <Text style={styles.movieText}>
+            //       {item.id}. {item.title}, {item.releaseYear}
+            //     </Text>
+            //   </View>
+            // )}
           />
-          <View>
-          <Button
-          onPress={() => setToggleButton(toggleButton => !toggleButton)}
-          title="Save"
-        />
-          </View>
           {/* Show the description */}
           <Text style={styles.description}>{description}</Text>
-
-          {toggleButton && (
-        <View style={styles.resultContainer}>
-          {Object.entries(state).map(([key, value]) => {
-            return (
-              value && (
-                <View key={key} style={{paddingHorizontal: 5}}>
-                  <Text>{key}</Text>
-                </View>
-              )
-            );
-          })}
         </View>
-      )}
-      
-        </View>
-        
       )}
     </SafeAreaView>
   );
@@ -157,14 +143,6 @@ const styles = StyleSheet.create({
     fontWeight: "200",
     color: "green",
   },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  checkbox: {
-    flexDirection: "row",
-    marginBottom: 20,
-  }
 });
 
 export default App;
