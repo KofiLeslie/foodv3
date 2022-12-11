@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   ActivityIndicator,
   FlatList,
-  AsyncStorage,
   Button,
 } from "react-native";
 import Checkbox from 'expo-checkbox';
@@ -14,16 +13,31 @@ import { StatusBar } from 'expo-status-bar';
 
 // get data from this URL!
 const movieURL = "https://reactnative.dev/movies.json";
-
+let x = 1;
+let myArray = [];
 const App = () => {
   // managing state with 'useState'
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [title, setTitle] = useState([]);
   const [description, setDescription] = useState([]);
-  const [isChecked, setChecked] = useState([]);
-  const [toggleButton, setToggleButton] = React.useState(false);
-
+  const [isChecked, setChecked] = useState(false);
+  const [toggleButton, setToggleButton] = useState(false);
+  // const initaliseState = {};
+  // console.log('====================================');
+  // for (let i = 0; i < data.length; i++) {
+  //   data[i].isSelected = false;
+    
+  // }
+  // console.log(data.length)
+  // console.log('====================================');
+  // x++;
+  // const handleOnChange = (position) => {
+  //   const updatedCheckedState = isChecked.map((item, index) =>
+  //     item.id === position ? !item : item
+  //   );
+  //   setChecked(updatedCheckedState);
+  // }
   // const initialState = data.map((item) =>{
   //   item.id:false;
   // });
@@ -32,7 +46,6 @@ const App = () => {
     fetch(movieURL)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
-        setChecked(json.movies);
         setData(json.movies);
         setTitle(json.title);
         setDescription(json.description);
@@ -116,7 +129,7 @@ const App = () => {
           {/* Show the description */}
           <Text style={styles.description}>{description}</Text>
 
-          {toggleButton && (
+          {/* {toggleButton && (
         <View style={styles.resultContainer}>
           {Object.entries(state).map(([key, value]) => {
             return (
@@ -128,8 +141,8 @@ const App = () => {
             );
           })}
         </View>
-      )}
-      
+      )} */}
+
         </View>
         
       )}

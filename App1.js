@@ -33,31 +33,26 @@ export default function Checkbox() {
   const [title, setTitle] = useState([]);
   const [description, setDescription] = useState([]);
   // 
+  console.log('====================================');
+  console.log(data[0]);
+  console.log('====================================');
   return (
     <View style={styles.container}>
       <View>
         <View>
           
+          
           <View style={styles.checkboxWrapper}>
-            <FlatList
-            data = {data}
-            keyExtractor={({ id }, index) => id}
-            renderItem = {({item}) => (
-              <View>
-                 <CheckBox
-              value={state.vue}
+            <CheckBox
+              value={state.next}
               onValueChange={value =>
                 setState({
                   ...state,
-                  vue: value,
+                  next: value,
                 })
               }
             />
-            <Text>{item.title}</Text>
-              </View>
-            )}
-            />
-            
+            <Text>next js</Text>
           </View>
           <View style={styles.checkboxWrapper}>
             <CheckBox
